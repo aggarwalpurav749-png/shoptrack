@@ -1,0 +1,56 @@
+# Free builds of the Android app (.apk) and the Windows app (.exe) on GitHub.
+# Push this project to GitHub, open the "Actions" tab, run "Build apps", then download the files from "Artifacts".
+name: Build apps
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 17 }
+      - name: Build the web app
+        run: npm --prefix client install --include=dev && npm --prefix client run build
+      - name: Create the Android project
+        working-directory: mobile
+        run: |
+          npm install
+          npx cap add android
+          ./patch-android.sh
+          npx cap sync android
+      - name: Build the APK
+        working-directory: mobile/android
+        run: ./gradlew assembleDebug --no-daemon
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ShopTrack-Android-apk
+          path: mobile/android/app/build/outputs/apk/debug/app-debug.apk
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Build the web app
+        run: |
+          npm --prefix client install --include=dev
+          npm --prefix client run build
+      - name: Build the Windows installer
+        shell: bash
+        run: |
+          mkdir -p desktop/dist
+          cp -r client/dist/. desktop/dist/
+          cd desktop
+          npm install
+          npx electron-builder --win nsis --x64 --publish never
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ShopTrack-Windows-installer
+          path: desktop/release/*.exe

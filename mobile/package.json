@@ -1,0 +1,12 @@
+{
+  "name": "shoptrack-android",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Android app (Capacitor) - wraps the built client",
+  "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
+    "@capacitor-community/background-geolocation": "^1.2.20"
+  }
+}

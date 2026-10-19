@@ -1,0 +1,9 @@
+node_modules
+client/dist
+mobile/android
+mobile/node_modules
+desktop/dist
+desktop/release
+desktop/node_modules
+server/.env
+server/uploads

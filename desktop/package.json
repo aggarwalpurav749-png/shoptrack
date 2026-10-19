@@ -1,0 +1,18 @@
+{
+  "name": "shoptrack-desktop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ShopTrack for Windows",
+  "main": "main.js",
+  "author": "Ganpat Ram Mahadev Parshad",
+  "scripts": { "start": "electron .", "dist": "electron-builder --win nsis --x64" },
+  "devDependencies": { "electron": "^31.7.7", "electron-builder": "^24.13.3" },
+  "build": {
+    "appId": "com.ganpatram.shoptrack",
+    "productName": "ShopTrack",
+    "files": ["main.js", "dist/**/*"],
+    "directories": { "output": "release" },
+    "win": { "target": "nsis" },
+    "nsis": { "oneClick": false, "allowToChangeInstallationDirectory": true, "perMachine": false }
+  }
+}

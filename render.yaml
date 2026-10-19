@@ -1,0 +1,37 @@
+# One Render web service: the Node server also serves the built React app (same address, no CORS problems).
+services:
+  - type: web
+    name: shoptrack
+    runtime: node
+    plan: free
+    # NODE_ENV=production would skip devDependencies (vite, tailwind), so install them explicitly for the build.
+    buildCommand: npm --prefix server install && npm --prefix client install --include=dev && npm --prefix client run build
+    startCommand: npm --prefix server start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: ADMIN_EMAIL
+        value: admin@shop.com
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: ADMIN_NAME
+        value: Owner
+      - key: SEED_DEMO
+        value: "false"
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: PEXELS_API_KEY
+        sync: false
+      - key: PIXABAY_API_KEY
+        sync: false

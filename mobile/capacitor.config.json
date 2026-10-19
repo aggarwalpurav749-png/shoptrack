@@ -1,0 +1,7 @@
+{
+  "appId": "com.ganpatram.shoptrack",
+  "appName": "ShopTrack",
+  "webDir": "../client/dist",
+  "server": { "androidScheme": "https" },
+  "android": { "allowMixedContent": false }
+}
